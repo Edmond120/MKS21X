@@ -1,0 +1,27 @@
+git add
+-------
+tells git to keep track of said file
+
+git commit
+-----------
+creates a commit (requires a commit message)
+
+git push
+---------
+updates website
+
+git pull
+--------
+updates local repo
+
+git clone
+---------
+copies an online repo to create a local repo
+
+git config
+----------
+used to config git ex. git config user.name "username", git config --global user.name "username"
+
+git status
+----------
+tells you which files are added and commited
