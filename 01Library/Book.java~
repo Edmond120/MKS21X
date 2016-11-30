@@ -1,0 +1,43 @@
+Class Book{
+    private String author;
+    private String title;
+    private int ISBN;
+    public Book(){
+    }
+    public Book(String a,String t,int i){
+	setAuthor(a);
+	setTitle(t);
+	setISBN(i);
+    }
+    public String getAuthor(){
+	return author;
+    }
+    public String getTitle(){
+	return title;
+    }
+    public int getISBN(){
+	return ISBN;
+    }
+    public void setAuthor(String x){
+	author = x;
+    }
+    public void setTitle(String x){
+	title = x;
+    }
+    public void setISBN(int x){
+	ISBN = x;
+    }
+    public String toString(){
+	return getTitle() + "," + getAuthor() + "," + getISBN();
+    }
+}
+abstract Class LibraryBook extends Book implements Comparable{
+    private int callNumber;
+    public LibraryBook(String a,String t,int i,int c){
+	super(a,t,i);
+	setCallNumber(c);
+    }
+    public void setCallNumber(int c){
+	callNumber = c;
+    }
+}

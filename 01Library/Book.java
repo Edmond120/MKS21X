@@ -2,9 +2,9 @@ class Book{
     private String author;
     private String title;
     private int ISBN;
-    public Book(){
+    Book(){
     }
-    public Book(String a,String t,int i){
+    Book(String a,String t,int i){
 	setAuthor(a);
 	setTitle(t);
 	setISBN(i);
@@ -62,5 +62,31 @@ abstract class LibraryBook extends Book implements Comparable<LibraryBook>{
     public String toString(){
 	return super.toString() + 
 	    ", " + getCallNumber() + ", " + circulationStatus();
+    }
+}
+class ReferenceBook extends LibraryBook{
+    private String collection;
+    public String getCollection(){
+	return collection;
+    }
+    public void setCollection(String x){
+	collection = x;
+    }
+    ReferenceBook(String author,String title,int ISBN,int callNum,
+			 String collection){
+	super(author,title,ISBN,callNum);
+	setCollection(collection);
+    }
+    public void checkout(String patron, String due){
+	System.out.println("you can't checkout a reference book, loser");
+    }
+    public void returned(){
+	System.out.println("reference book could not have been checked out -- return impossible");
+    }
+    public String circulationStatus(){
+	return "non-circulating reference book";
+    }
+    public String toString(){
+	return super.toString() + ", " + getCollection();
     }
 }
