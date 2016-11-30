@@ -90,3 +90,16 @@ class ReferenceBook extends LibraryBook{
 	return super.toString() + ", " + getCollection();
     }
 }
+class CirculatingBook extends LibraryBook{
+    private String currentHolder;
+    private String dueDate;
+    public String getCurrentHolder(){
+	return currentHolder;
+    }
+    public String getDueDate(){
+	return dueDate;
+    }
+    public void setCurrentHolder(String x){
+        currentHolder = x;
+    }
+}
