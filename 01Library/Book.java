@@ -1,10 +1,10 @@
 class Book{
     private String author;
     private String title;
-    private int ISBN;
+    private String ISBN;
     public Book(){
     }
-    public Book(String a,String t,int i){
+    public Book(String a,String t,String i){
 	setAuthor(a);
 	setTitle(t);
 	setISBN(i);
@@ -15,7 +15,7 @@ class Book{
     public String getTitle(){
 	return title;
     }
-    public int getISBN(){
+    public String getISBN(){
 	return ISBN;
     }
     public void setAuthor(String x){
@@ -24,7 +24,7 @@ class Book{
     public void setTitle(String x){
 	title = x;
     }
-    public void setISBN(int x){
+    public void setISBN(String x){
 	ISBN = x;
     }
     public String toString(){
@@ -32,32 +32,24 @@ class Book{
     }
 }
 abstract class LibraryBook extends Book implements Comparable<LibraryBook>{
-    private int callNumber;
-    public LibraryBook(String a,String t,int i,int c){
+    private String callNumber;
+    public LibraryBook(String a,String t,String i,String c){
 	super(a,t,i);
 	setCallNumber(c);
     }
-    public int getCallNumber(){
+    public String getCallNumber(){
 	return callNumber;
     }
-    public void setCallNumber(int c){
+    public void setCallNumber(String c){
 	callNumber = c;
     }
     abstract void checkout(String patron, String due);
     abstract void returned();
     abstract String circulationStatus();
     public int compareTo(LibraryBook x){
-	int a = getCallNumber();
-	int b = x.getCallNumber();
-	if(a == b){
-	    return 0;
-	}
-	else if(a > b){
-	    return 1;
-	}
-	else{
-	    return -1;
-	}
+	String a = getCallNumber();
+	String b = x.getCallNumber();
+	return a.compareTo(b);
     }
     public String toString(){
 	return super.toString() + 
@@ -72,7 +64,7 @@ class ReferenceBook extends LibraryBook{
     public void setCollection(String x){
 	collection = x;
     }
-    public ReferenceBook(String author,String title,int ISBN,int callNum,
+    public ReferenceBook(String author,String title,String ISBN,String callNum,
 			 String collection){
 	super(author,title,ISBN,callNum);
 	setCollection(collection);
@@ -105,7 +97,7 @@ class CirculatingBook extends LibraryBook{
     public void setDueDate(String x){
 	dueDate = x;
     }
-    public CirculatingBook(String author,String title,int ISBN,int callNum){
+    public CirculatingBook(String author,String title,String ISBN,String callNum){
 	super(author,title,ISBN,callNum);
 	setCurrentHolder(null);
 	setDueDate(null);
@@ -119,7 +111,7 @@ class CirculatingBook extends LibraryBook{
 	setDueDate(null);
     }
     public String circulationStatus(){
-	if (currentHolder.equals(null)){
+	if (currentHolder == null){
 	    return "book available on shelves";
 	}
 	else{
