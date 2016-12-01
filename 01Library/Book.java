@@ -2,9 +2,9 @@ class Book{
     private String author;
     private String title;
     private int ISBN;
-    Book(){
+    public Book(){
     }
-    Book(String a,String t,int i){
+    public Book(String a,String t,int i){
 	setAuthor(a);
 	setTitle(t);
 	setISBN(i);
@@ -72,7 +72,7 @@ class ReferenceBook extends LibraryBook{
     public void setCollection(String x){
 	collection = x;
     }
-    ReferenceBook(String author,String title,int ISBN,int callNum,
+    public ReferenceBook(String author,String title,int ISBN,int callNum,
 			 String collection){
 	super(author,title,ISBN,callNum);
 	setCollection(collection);
@@ -102,4 +102,29 @@ class CirculatingBook extends LibraryBook{
     public void setCurrentHolder(String x){
         currentHolder = x;
     }
+    public void setDueDate(String x){
+	dueDate = x;
+    }
+    public CirculatingBook(String author,String title,int ISBN,int callNum){
+	super(author,title,ISBN,callNum);
+	setCurrentHolder(null);
+	setDueDate(null);
+    }
+    public void checkout(String name, String date){
+	setCurrentHolder(name);
+	setDueDate(date);
+    }
+    public void returned(){
+	setCurrentHolder(null);
+	setDueDate(null);
+    }
+    public String circulationStatus(){
+	if (currentHolder.equals(null)){
+	    return "book available on shelves";
+	}
+	else{
+	    return getCurrentHolder() + ", " + getDueDate();
+	}
+    }
+	
 }
