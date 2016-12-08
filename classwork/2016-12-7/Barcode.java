@@ -20,10 +20,10 @@ public class Barcode implements Comparable<Barcode>{
 	}
 	return true;
     }
-    private int checkSum(){
+    public int checkSum(String zip){
 	int result = 0;
-	for(int i = 0; i < _zip.length(); i++){
-	    result += Integer.parseInt(_zip.charAt(i) +"");
+	for(int i = 0; i < zip.length(); i++){
+	    result += Integer.parseInt(zip.charAt(i) +"");
 	}
 	return result;
     }
@@ -37,15 +37,25 @@ public class Barcode implements Comparable<Barcode>{
 	catch (runtimeException e){
 	    System.out.println(e.message);
 	}
-	_checkDigit = checkSum() % 10;
+	_checkDigit = checkSum(_zip) % 10;
+    }
+    public String toCode(String zip){
+	String result ="|";
+	for(int i = 0; i < zip.length();i++){
+	    result = result + key[Character.getNumericValue(zip.charAt(i))];
+	}
+	result = result + key[checkSum(zip) % 10] + "|";
+	return result;
+    }
+    public String toString(boolean x){
+	String y = "  ";
+	if(x){
+	    y = _zip + y;
+	}
+	return y + toCode(_zip);
     }
     public String toString(){
-	String result = _zip + "  |";
-	for(int i = 0; i < _zip.length();i++){
-	    result = result + key[_zip.charAt(i)];
-	}
-	result = result + key[_checkDigit] + "|";
-	return result;
+	return toString(true);
     }
     public int compareTo(Barcode other){
 	int a = Integer.parseInt(_zip + _checkDigit);
