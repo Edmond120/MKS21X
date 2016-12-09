@@ -1,3 +1,4 @@
+import java.lang.*;
 class runtimeException extends Throwable{
     public String message;
     public runtimeException(String x){
@@ -9,18 +10,18 @@ public class Barcode implements Comparable<Barcode>{
     private String _zip;
     private int _checkDigit;
     private static String[] key = {"||:::",":::||","::|:|","::||:",":|::|",":|:|:",":||::","|:::|","|::|:","|:|::"};
-    public boolean precondition(){
-	if(_zip.length() != 5){
+    public static boolean precondition(String zip){
+	if(zip.length() != 5){
 	    return false;
 	}
 	for(int i = 0; i < 5;i++){
-	    if(!Character.isDigit(_zip.charAt(i))){
+	    if(!Character.isDigit(zip.charAt(i))){
 		return false;
 	    }
 	}
 	return true;
     }
-    public int checkSum(String zip){
+    public static int checkSum(String zip){
 	int result = 0;
 	for(int i = 0; i < zip.length(); i++){
 	    result += Integer.parseInt(zip.charAt(i) +"");
@@ -30,7 +31,7 @@ public class Barcode implements Comparable<Barcode>{
     public Barcode(String zip){
 	_zip = zip;
 	try{
-	    if(!precondition()){
+	    if(!precondition(_zip)){
 		throw new runtimeException("zip is not the correct length or zip contrains a non digit, but I won't tell you which");
 	    }
 	}
@@ -39,13 +40,18 @@ public class Barcode implements Comparable<Barcode>{
 	}
 	_checkDigit = checkSum(_zip) % 10;
     }
-    public String toCode(String zip){
-	String result ="|";
-	for(int i = 0; i < zip.length();i++){
-	    result = result + key[Character.getNumericValue(zip.charAt(i))];
+    public static String toCode(String zip){
+	if(precondition(zip)){
+	    String result ="|";
+	    for(int i = 0; i < zip.length();i++){
+		result = result + key[Character.getNumericValue(zip.charAt(i))];
+	    }
+	    result = result + key[checkSum(zip) % 10] + "|";
+	    return result;
 	}
-	result = result + key[checkSum(zip) % 10] + "|";
-	return result;
+	else{
+	    throw new IllegalArgumentException();
+	}
     }
     public String toString(boolean x){
 	String y = "  ";
@@ -58,16 +64,27 @@ public class Barcode implements Comparable<Barcode>{
 	return toString(true);
     }
     public int compareTo(Barcode other){
-	int a = Integer.parseInt(_zip + _checkDigit);
-	int b = Integer.parseInt(other._zip + other._checkDigit);
-	if(a == b){
-	    return 0;
+	return (other._zip + other._checkDigit).compareTo(_zip + _checkDigit);
+    }
+    private static String tanslate(String code){
+	String zip = "";
+	for(int i = 1; i < 31; i + 5){
+	    String x = code.subString(i, i + 5);
+	    for(int i = 0; i < 10; i++){
+		if(x.equals(key[i])){
+		    zip = zip + i;
+		    break;
+		}
+	    }
 	}
-	else if (a > b){
-	    return 1;
+    }
+    public static String toZip(String code){
+	String zip = "";
+	if(code.length() != 32 || code.charAt(0) != '|' || 
+	   code.charAt(31) != '|'){
+	    throw new IllegalArgumentException();
 	}
-	else{
-	    return -1;
-	}
+	
+       
     }
 }
