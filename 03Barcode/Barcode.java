@@ -1,11 +1,4 @@
 import java.lang.*;
-class runtimeException extends Throwable{
-    public String message;
-    public runtimeException(String x){
-	super();
-	message = x;
-    }
-}
 public class Barcode implements Comparable<Barcode>{
     private String _zip;
     private int _checkDigit;
@@ -30,13 +23,8 @@ public class Barcode implements Comparable<Barcode>{
     }
     public Barcode(String zip){
 	_zip = zip;
-	try{
-	    if(!precondition(_zip)){
-		throw new runtimeException("zip is not the correct length or zip contrains a non digit, but I won't tell you which");
-	    }
-	}
-	catch (runtimeException e){
-	    System.out.println(e.message);
+	if(!precondition(_zip)){
+	    throw new IllegalArgumentException();
 	}
 	_checkDigit = checkSum(_zip) % 10;
     }
@@ -64,19 +52,15 @@ public class Barcode implements Comparable<Barcode>{
 	return toString(true);
     }
     public int compareTo(Barcode other){
-	return (other._zip + other._checkDigit).compareTo(_zip + _checkDigit);
+	return (_zip + _checkDigit).compareTo(other._zip + other._checkDigit);
     }
-    private static String tanslate(String code){
-	String zip = "";
-	for(int i = 1; i < 31; i + 5){
-	    String x = code.subString(i, i + 5);
+    private static int tanslate(String code){
 	    for(int i = 0; i < 10; i++){
-		if(x.equals(key[i])){
-		    zip = zip + i;
-		    break;
+		if(code.equals(key[i])){
+		    return i;
 		}
 	    }
-	}
+	    throw new IllegalArgumentException();
     }
     public static String toZip(String code){
 	String zip = "";
@@ -84,7 +68,14 @@ public class Barcode implements Comparable<Barcode>{
 	   code.charAt(31) != '|'){
 	    throw new IllegalArgumentException();
 	}
-	
+	String x = code.substring(1,31);
+	for (int i = 0; i < x.length(); i += 5){
+	    zip = zip + tanslate(x.substring(i, i + 5));
+	}
+	if(checkSum(zip.substring(0,5)) % 10 != Integer.parseInt(zip.charAt(5) + "")){
+	    throw new IllegalArgumentException();
+	}
+	return zip;
        
     }
 }
