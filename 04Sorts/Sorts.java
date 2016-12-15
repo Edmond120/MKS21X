@@ -2,6 +2,22 @@ public class Sorts{
     public static String name(){
 	return "09.Wong.Edmond";
     }
+    private long[] time;
+    private int i;
+    Sorts(int len){
+	time = new long[len * 2];
+	i = 0;
+    }
+    public void time(boolean startOrEnd){
+	if(startOrEnd){
+	    time[i] = System.currentTimeMillis();
+	}
+	else{
+	    time[i + 1] = System.currentTimeMillis();
+	    System.out.println(time[i + 1] - time[i]);
+	    i += 2;
+	}
+    }
     public static void selectionSort(int[]data){
 	int temp;
 	int minIndex;
@@ -34,6 +50,22 @@ public class Sorts{
 	    }
 	}
     }
+    public static void bubbleSort(int[]data){
+	int temp = 0;
+	for(int i = data.length - 1;i > 0; i -= 1){
+	    for(int i2 = 0; i2 < i; i2++){
+		if(!(data[i2] <= data[i2 + 1])){
+		    temp = data[i2 + 1];
+		    data[i2 + 1] = data[i2];
+		    data[i2] = temp;
+		}
+	    }
+	    if(temp == 0){
+		break;
+	    }
+	}
+    }
+	
     public static int[] copy(int[]data){
 	int[] result = new int[data.length];
 	for(int i = 0; i < data.length; i++){
