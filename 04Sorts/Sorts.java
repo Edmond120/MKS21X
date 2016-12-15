@@ -20,19 +20,27 @@ public class Sorts{
     public static void insertionSort(int[]data){
 	int temp;
 	for(int i = 0; i < data.length - 1; i++){
-	    if(! data[i] <= data[i + 1]){
+	    if(!(data[i] <= data[i + 1])){
 		temp = data[i + 1];
 		for(int i2 = 0; i2 <= i; i2++){
 		    if(temp <= data[i2]){
-			for(int i3 = i; i3 > i2; i3 = i3 - 1){
+			for(int i3 = i + 1; i3 > i2; i3 = i3 - 1){
 			    data[i3] = data[i3 - 1];
 			}
+			data[i2] = temp;
+			break;
 		    }
 		}
 	    }
 	}
     }
-		
+    public static int[] copy(int[]data){
+	int[] result = new int[data.length];
+	for(int i = 0; i < data.length; i++){
+	    result[i] = data[i];
+	}
+	return result;
+    }
     public static String toString(int[]x){
 	String result = "[";
 	for(int i = 0;i < x.length;i++){
