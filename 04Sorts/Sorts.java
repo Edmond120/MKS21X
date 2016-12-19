@@ -2,20 +2,15 @@ public class Sorts{
     public static String name(){
 	return "09.Wong.Edmond";
     }
-    private long[] time;
-    private int i;
-    Sorts(int len){
-	time = new long[len * 2];
-	i = 0;
+    private double time;
+    Sorts(){
     }
     public void time(boolean startOrEnd){
 	if(startOrEnd){
-	    time[i] = System.currentTimeMillis();
+	    time = System.currentTimeMillis();
 	}
 	else{
-	    time[i + 1] = System.currentTimeMillis();
-	    System.out.println(time[i + 1] - time[i]);
-	    i += 2;
+	    System.out.println((System.currentTimeMillis() - time) / 1000.0);
 	}
     }
     public static void selectionSort(int[]data){
